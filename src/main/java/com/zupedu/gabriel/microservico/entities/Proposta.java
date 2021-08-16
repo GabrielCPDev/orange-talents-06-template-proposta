@@ -2,6 +2,7 @@ package com.zupedu.gabriel.microservico.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Proposta implements Serializable {
 	@NotBlank(message = "Campo obrigatório")
 	private String endereco;
 	private Double salario;
+	@Column(unique = true)
 	@NotBlank(message = "Campo obrigatório")
 	private String cpfOuCnpj;
 	
