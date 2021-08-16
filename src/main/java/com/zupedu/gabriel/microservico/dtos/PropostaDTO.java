@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.zupedu.gabriel.microservico.entities.Proposta;
+import com.zupedu.gabriel.microservico.entities.enums.Status;
 import com.zupedu.gabriel.microservico.validations.PropostaInsert;
 
 @PropostaInsert
@@ -21,17 +22,19 @@ public class PropostaDTO implements Serializable {
 	private Double salario;
 	@NotBlank(message = "Campo obrigatório")
 	private String cpfOuCnpj;
+	private Status status;
 
 	public PropostaDTO() {
 
 	}
 
-	public PropostaDTO(String nome, String email, String endereco, Double salario, String cpfOuCnpj) {
+	public PropostaDTO(String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status) {
 		this.nome = nome;
 		this.email = email;
 		this.endereco = endereco;
 		this.salario = salario;
 		this.cpfOuCnpj = cpfOuCnpj;
+		this.status = status;
 	}
 	
 	public PropostaDTO(Proposta entity) {
@@ -40,6 +43,7 @@ public class PropostaDTO implements Serializable {
 		endereco = entity.getEndereco();
 		salario = entity.getSalario();
 		cpfOuCnpj = entity.getCpfOuCnpj();
+		status = entity.getStatus();
 	}
 
 	public String getNome() {
@@ -81,9 +85,16 @@ public class PropostaDTO implements Serializable {
 	public void setCpfOuCnpj(String cpfOuCnpj) {
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	
 	public Proposta toEntity () {
-		return new Proposta(null, nome, email, endereco, salario, cpfOuCnpj);
+		return new Proposta(null, nome, email, endereco, salario, cpfOuCnpj, status);
 	}
 
 }

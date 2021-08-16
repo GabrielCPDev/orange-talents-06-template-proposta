@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
+import com.zupedu.gabriel.microservico.entities.enums.Status;
 
 @Entity
 @Table(name = "tb_propostas")
@@ -28,12 +31,14 @@ public class Proposta implements Serializable {
 	@Column(unique = true)
 	@NotBlank(message = "Campo obrigatório")
 	private String cpfOuCnpj;
+	@Enumerated
+    private Status status;
 	
 	public Proposta() {
 		
 	}
 
-	public Proposta(Long id, String nome, String email, String endereco, Double salario, String cpfOuCnpj) {
+	public Proposta(Long id, String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -41,6 +46,7 @@ public class Proposta implements Serializable {
 		this.endereco = endereco;
 		this.salario = salario;
 		this.cpfOuCnpj = cpfOuCnpj;
+		this.status = status;
 	}
 
 	public Long getId() {
@@ -89,6 +95,14 @@ public class Proposta implements Serializable {
 
 	public void setCpfOuCnpj(String cpfOuCnpj) {
 		this.cpfOuCnpj = cpfOuCnpj;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	@Override
