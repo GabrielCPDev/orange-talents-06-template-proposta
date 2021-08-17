@@ -23,18 +23,20 @@ public class PropostaDTO implements Serializable {
 	@NotBlank(message = "Campo obrigatório")
 	private String cpfOuCnpj;
 	private Status status;
+	private String cartao;
 
 	public PropostaDTO() {
 
 	}
 
-	public PropostaDTO(String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status) {
+	public PropostaDTO(String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status, String cartao) {
 		this.nome = nome;
 		this.email = email;
 		this.endereco = endereco;
 		this.salario = salario;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.status = status;
+		this.cartao = cartao;
 	}
 	
 	public PropostaDTO(Proposta entity) {
@@ -44,6 +46,7 @@ public class PropostaDTO implements Serializable {
 		salario = entity.getSalario();
 		cpfOuCnpj = entity.getCpfOuCnpj();
 		status = entity.getStatus();
+		cartao = entity.getCartao();
 	}
 
 	public String getNome() {
@@ -93,8 +96,16 @@ public class PropostaDTO implements Serializable {
 		this.status = status;
 	}
 	
+	public String getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(String cartao) {
+		this.cartao = cartao;
+	}
+
 	public Proposta toEntity () {
-		return new Proposta(null, nome, email, endereco, salario, cpfOuCnpj, status);
+		return new Proposta(null, nome, email, endereco, salario, cpfOuCnpj, status, cartao);
 	}
 
 }

@@ -33,12 +33,13 @@ public class Proposta implements Serializable {
 	private String cpfOuCnpj;
 	@Enumerated
     private Status status;
+	private String cartao;
 	
 	public Proposta() {
 		
 	}
 
-	public Proposta(Long id, String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status) {
+	public Proposta(Long id, String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status, String cartao) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -47,6 +48,7 @@ public class Proposta implements Serializable {
 		this.salario = salario;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.status = status;
+		this.cartao = cartao;
 	}
 
 	public Long getId() {
@@ -103,6 +105,14 @@ public class Proposta implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public String getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(String cartao) {
+		this.cartao = cartao;
 	}
 
 	@Override
