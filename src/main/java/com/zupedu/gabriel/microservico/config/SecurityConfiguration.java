@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Override
+	  @Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().authorizeRequests().anyRequest().authenticated().and().oauth2ResourceServer().jwt();
 	}

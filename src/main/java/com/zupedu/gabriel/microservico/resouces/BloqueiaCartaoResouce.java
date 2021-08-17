@@ -17,7 +17,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.zupedu.gabriel.microservico.dtos.BloqueiaCartaoDTO;
 import com.zupedu.gabriel.microservico.repositories.BloqueioCartaoRepository;
 import com.zupedu.gabriel.microservico.repositories.PropostaRepository;
+import com.zupedu.gabriel.microservico.resouces.exceptions.utils.InternalErrorException;
 import com.zupedu.gabriel.microservico.resouces.exceptions.utils.ObjectNotFoundException;
+import com.zupedu.gabriel.microservico.resouces.utils.BloqueioRequest;
+import com.zupedu.gabriel.microservico.resouces.utils.SolicitaBloqueio;
 
 @RestController
 @RequestMapping(value = "/bloqueio")
@@ -27,6 +30,8 @@ public class BloqueiaCartaoResouce {
 	private PropostaRepository propostaRepository;
 	@Autowired
 	private BloqueioCartaoRepository bloqueioCartaoRepository;
+	@Autowired
+	private SolicitaBloqueio solicitaBloqueio;
 
 	@PostMapping("/{id}")
 	private ResponseEntity<Void> bloqueiaCartao(@PathVariable Long id,
@@ -38,13 +43,24 @@ public class BloqueiaCartaoResouce {
 		var dto = new BloqueiaCartaoDTO(funcionario, cliente);
 		var proposta = propostaRepository.findById(id);
 		var bloqueio = dto.toEntity(proposta.get());
+		var idCartao = proposta.get().getCartao();
+		
+		var enviaBloqueio = new BloqueioRequest(funcionario);
+		
+		try {
+			var bloqueioResponse = solicitaBloqueio.getBloqueio(idCartao, enviaBloqueio);
+			var entitySaved = bloqueioCartaoRepository.save(bloqueio);
 
-		var entitySaved = bloqueioCartaoRepository.save(bloqueio);
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/bloqueio/{id}")
+					.buildAndExpand(entitySaved.getId()).toUri();
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/bloqueio/{id}")
-				.buildAndExpand(entitySaved.getId()).toUri();
+			return ResponseEntity.created(uri).build();
+		}
+		catch (InternalErrorException e) {
+			throw new InternalErrorException("Erro no sistema. Impossível concluir a operação!");
+		}
 
-		return ResponseEntity.created(uri).build();
+		
 	}
 
 }
