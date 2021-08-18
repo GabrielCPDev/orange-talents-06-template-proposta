@@ -41,6 +41,10 @@ public class AvisoViagemDTO {
 	public LocalDate getDataTermino() {
 		return dataTermino;
 	}
+	
+	public String getDataTerminoToString() {
+		return dataTermino.toString();
+	}
 
 	public AvisoViagem toEntity(String userAgente, String ipCliente, Proposta proposta) {
 		return new AvisoViagem(destino, dataTermino, ipCliente, userAgente, proposta);

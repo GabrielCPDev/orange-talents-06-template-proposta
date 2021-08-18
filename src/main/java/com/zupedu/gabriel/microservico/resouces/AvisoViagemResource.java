@@ -20,6 +20,8 @@ import com.zupedu.gabriel.microservico.repositories.AvisoViagemRepository;
 import com.zupedu.gabriel.microservico.repositories.PropostaRepository;
 import com.zupedu.gabriel.microservico.resouces.exceptions.utils.InternalErrorException;
 import com.zupedu.gabriel.microservico.resouces.exceptions.utils.ObjectNotFoundException;
+import com.zupedu.gabriel.microservico.resouces.utils.AvisoRequest;
+import com.zupedu.gabriel.microservico.resouces.utils.SolicitaAvisoViagem;
 
 @RestController
 @RequestMapping(value = "/viagem")
@@ -29,6 +31,8 @@ public class AvisoViagemResource {
 	private PropostaRepository propostaRepository;
 	@Autowired
 	private AvisoViagemRepository avisoViagemRepository;
+	@Autowired
+	private SolicitaAvisoViagem solicitaAvisoViagem;
 
 	@PostMapping("/{id}")
 	public ResponseEntity<Void> save(@PathVariable Long id, @Valid @RequestBody AvisoViagemDTO dto,
@@ -39,6 +43,7 @@ public class AvisoViagemResource {
 		}
 		var proposta = propostaRepository.findById(id);
 		var avisoViagem = dto.toEntity(funcionario, cliente.getHeader("X-Forward-For"), proposta.get());
+		var avisoEnviado = new AvisoRequest(dto.getDestino(), dto.getDataTerminoToString());
 		if(!avisoViagem.isValidIdCartao()) {
 			throw new InternalErrorException("Cartão Inválido!");
 		}
