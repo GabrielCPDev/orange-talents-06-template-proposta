@@ -44,7 +44,9 @@ public class AvisoViagemResource {
 		var proposta = propostaRepository.findById(id);
 		var avisoViagem = dto.toEntity(funcionario, cliente.getHeader("X-Forward-For"), proposta.get());
 		var avisoEnviado = new AvisoRequest(dto.getDestino(), dto.getDataTerminoToString());
-		if(!avisoViagem.isValidIdCartao()) {
+		var avisoResponse = solicitaAvisoViagem.getAviso(avisoViagem.getIdCartao(), avisoEnviado);
+		
+		if (!avisoViagem.isValidIdCartao() && !avisoResponse.isValid()) {
 			throw new InternalErrorException("Cartão Inválido!");
 		}
 		var entitySaved = avisoViagemRepository.save(avisoViagem);
