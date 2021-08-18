@@ -21,7 +21,7 @@ import com.zupedu.gabriel.microservico.resouces.utils.CarteiraRequest;
 import com.zupedu.gabriel.microservico.resouces.utils.SolicitaAssociacao;
 
 @RestController
-@RequestMapping("/carteira/paypal")
+@RequestMapping("/carteira")
 public class AssociacaoPaypalResource {
 
 	@Autowired
@@ -51,7 +51,7 @@ public class AssociacaoPaypalResource {
 		}
 		var entitySaved = carteiraRepository.save(carteira);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/biometria/{id}")
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/carteira/{id}")
 				.buildAndExpand(entitySaved.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
