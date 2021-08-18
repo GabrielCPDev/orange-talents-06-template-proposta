@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,11 +34,13 @@ public class PropostaResource {
 	private PropostaRepository propostaRepository;
 	@Autowired
 	private SituacaoClienteResouce situacaoCliente;
-
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	@PostMapping
 	public ResponseEntity<Void> save(@Valid @RequestBody PropostaDTO dto) {
 		dto.setStatus(Status.EM_ANALISE);
 		var entityToSave = dto.toEntity();
+		entityToSave.setCpfOuCnpj(encoder.encode(dto.getCpfOuCnpj()));
 
 		try {
 			StatusClienteResponse status = situacaoCliente.getStatus(new PropostaDTO(entityToSave));

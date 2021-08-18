@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
 import com.zupedu.gabriel.microservico.entities.enums.Status;
 
 @Entity
@@ -32,14 +31,15 @@ public class Proposta implements Serializable {
 	@NotBlank(message = "Campo obrigatório")
 	private String cpfOuCnpj;
 	@Enumerated
-    private Status status;
+	private Status status;
 	private String cartao;
-	
+
 	public Proposta() {
-		
+
 	}
 
-	public Proposta(Long id, String nome, String email, String endereco, Double salario, String cpfOuCnpj, Status status, String cartao) {
+	public Proposta(Long id, String nome, String email, String endereco, Double salario, String cpfOuCnpj,
+			Status status, String cartao) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -139,6 +139,5 @@ public class Proposta implements Serializable {
 			return false;
 		return true;
 	}
-	
 
 }
